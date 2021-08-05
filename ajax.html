@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+
+    <input type="text" name="text" />
+    <button class="button">click me </button>
+
+    <P class="inserting"></P>
+
+    <div class="for-data">
+
+    </div>
+
+<hr>
+
+
+<div class="result"></div>
+
+    <form>
+
+        <input id="name" type="text" name="name" >
+        <input id="job" type="text" name="job" >
+
+        <button>Add</button>
+
+    </form>
+    
+</body>
+<script>
+
+    $("document").ready(function(){
+        $("input") .keyup(function(){
+            var name = $("input").val();
+            $(".inserting").html(name);
+            console.log(name);
+        });
+
+        $(".button").on("click", function(){
+            $.get('https://reqres.in/api/users?page=2', function(data,status){
+                if(status=="success"){
+                    $.map(data.data,function(res, i){
+                        console.log(res);
+                        var A = '<div><h1>'+res.id+' </h1> <h1> '+res.first_name+' </h1> <h2> '+res.email+' </h2> <img src="'+res.avatar+'" > </div>';
+                        $(".for-data").append(A);
+                    });
+                }
+                
+            })
+        })
+
+        $("form").submit(function(e){
+            e.preventDefault();
+
+            var names = $("#name").val();
+            var jobs = $("#job").val();
+
+            A ={
+                name: names,
+                job: jobs
+            }
+            $.post('https://reqres.in/api/users',A, function(data, status){
+                console.log(status);
+                console.log(data);
+                $(".result").html('<h1>'+data.name+' - '+data.job+' - '+data.id+' - '+data.createdAt+'</h1>');
+            })
+
+
+        })
+    });
+
+
+
+</script>
+</html>

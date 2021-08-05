@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <!-- <script type="text/javascript" language="javascript" src="http://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script> -->
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+  
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+</head>
+<body>
+
+    <h1>Hello from dataTable</h1>
+
+    <table id="example" class="display" style="width: 100%;" >
+
+        <thead>
+            <tr>
+                <td>Avatar</td>
+                <td>id</td>
+                <td>first name</td>
+                <td>lsat name</td>
+                <td>email</td>
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+    </table>
+    
+</body>
+
+<script>
+$("document").ready(function(){
+    var dataOfDataTable;
+    $.get('https://reqres.in/api/users?page=2', function(data,status){
+                if(status=="success"){
+                    dataOfDataTable=data.data;
+                    console.log(dataOfDataTable);
+                    $.map(data.data,function(res, i){
+                        console.log(res);
+                        var A = '<div><h1>'+res.id+' </h1> <h1> '+res.first_name+' </h1> <h2> '+res.email+' </h2> <img src="'+res.avatar+'" > </div>';
+                        $(".for-data").append(A);
+                    });
+                }
+                
+    });
+
+    $("#example").DataTable({
+        processing: true,
+        serverSide: true,
+        scrollX: true,
+        pageLength: length,
+        lengthMenu: [ [2, 5, 7, 10, 20], [2, 5, 7, 10, 20] ],
+        order: [],
+        dom: 'lrtip',
+        ajax : function (dataToSend, callback, settings) {
+            var api = this.api();
+
+            page = api != undefined ? api.page()+1 : 1;
+            per_page = api != undefined ? api.page.len() : 5;
+            var link = 'https://reqres.in/api/users?page='+page+'&per_page='+per_page;
+            $.get(link, function(data){
+                console.log(data);
+                console.log("get dan qaytgani");
+                var A={
+                    recordsTotal: data.total,
+                    recordsFiltered: data.total,
+                    data: data.data
+                }
+                        callback(A);
+            });
+
+
+        },
+        columns:[
+            {data: 'id'},
+            {data: 'email'},
+            {data: 'first_name'},
+            {data: 'last_name'},
+            {data: 'avatar'}
+        ]
+    });
+})
+
+</script>
+</html>
