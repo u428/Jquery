@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <style>
+
+        .hightlight{
+            background-color:#ddd;
+        }
+
+        .anim{
+            width: 200px;
+            height: 200px;
+            background-color: blueviolet;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Hello</h1>
+    <h2></h2>
+    <h2 class="hover"> hello h2 2</h2>
+    <h2>hello h2 3 </h2>
+
+    
+
+    <div id="only-div">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque eum iste tenetur quis quisquam commodi.
+    </div>
+
+    <div class="clicking">
+
+        hello
+    </div>
+    <hr>
+
+    <div id="showing">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, consequuntur accusamus! Fugit vel fuga nostrum ab nemo eius excepturi, sequi, unde eum ratione quidem!</div>
+    <button class="show">showing panel</button>
+    <button class="hide">hiding panel</button>
+
+
+    <p class="fadings"> Fading in 3 secunds Lorem ipsum dolor sit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi illum laboriosam incidunt excepturi perferendis ab.</p>
+    <button class="fadetoggle">Fading toggle</button>
+    <button class="fade-in">Fading in</button>
+    <button class="fade-out">Fading out</button>
+
+
+<h2 class="slidings">Sliding for any reason mocing test on slide</h2>
+
+    <button class="slide-up">Slide Up</button>
+    <button class="slide-down">Slide Down</button>
+    
+    <button class="toggleSlide">Toggle Slide</button>
+
+
+
+
+
+    <h2 class="anim">animatings</h2>
+
+    <button class="grow">animating</button>
+    <button class="move">moveing</button>
+    
+    <p class="insert-text"></p>
+    <p class="insert-html"></p>
+
+
+    <h2 class="appendings">appedings any other</h2>
+
+    <button class="appends">append</button>
+    <button class="preappends">prepend</button>
+
+</body>
+   
+<script>
+
+    $("document").ready(function() {
+        $("h2:first").append("<h1> hello from jquery </h1>");
+        $("h2:last").css("border","1px dotted red", "");
+
+        var newtext =$("<p>");
+        newtext.append("<h3> i just reply </h3>");
+        $("#only-div").html(newtext);
+
+        $(".clicking").on("click", onMouseClicked);
+        $(".clicking").on("mouseleave", mouseLeve);
+
+
+        function onMouseClicked(){
+            $(".clicking").html("Thanks for clicking me");
+        }
+        function mouseLeve(){
+            $(".clicking").html("Why are you leaving me");
+        }
+
+        $(".show").on("click", function(){$("#showing").show()});
+        $(".hide").on("click", function(){$("#showing").hide()});
+   
+        $(".hover").hover(function(){
+            $(this).toggleClass("hightlight");
+        });
+
+        $(".fade-in").on("click", function(){
+            $(".fadings").fadeIn(4000,function(){alert("fading");} )
+        });
+
+        $(".fade-out").on("click", function(){
+            $(".fadings").fadeOut("fast",function(){} )
+        });
+        $(".fadetoggle").on("click", function(){
+            $(".fadings").fadeToggle(2000,function(){} )
+        });
+
+
+
+        $(".slide-up").on("click", function(){
+            $(".slidings").slideUp(2000,"linear" )
+        });
+        $(".slide-down").on("click", function(){
+            $(".slidings").slideDown(2000, "linear")
+        });
+        $(".toggleSlide").on("click", function(){
+            $(".slidings").slideToggle(2000,function(){alert("hey did you see sliding")} )
+        });
+
+
+        $(".grow").on("click", function(){
+            $(".anim").animate({width: "500px"}, 2000);
+        });    
+        $(".move").on("click", function(){
+            $(".anim").animate({marginLeft: "300px"}, 2000);
+        });
+
+        $(".insert-text").text("<p>Hello from inserting text</p>");
+        $(".insert-html").html("<p>Hello from html inserting text</p>");
+
+
+        $(".appends").on("click", function(){
+            $(".appendings").append(" | this is a append on jquery | ")
+        });
+        $(".preappends").on("click", function(){
+            $(".appendings").prepend(" | this is a prepends on jquery | ")
+        });
+    });
+</script>
+</html>
