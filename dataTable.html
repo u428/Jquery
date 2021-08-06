@@ -21,11 +21,11 @@
 
         <thead>
             <tr>
-                <td>Avatar</td>
-                <td>id</td>
-                <td>first name</td>
-                <td>lsat name</td>
-                <td>email</td>
+                <th>Avatar</th>
+                <th>first name</th>
+                <th>lsat name</th>
+                <th>email</th>
+                <th>id</th>
 
             </tr>
         </thead>
@@ -44,9 +44,7 @@ $("document").ready(function(){
     $.get('https://reqres.in/api/users?page=2', function(data,status){
                 if(status=="success"){
                     dataOfDataTable=data.data;
-                    console.log(dataOfDataTable);
                     $.map(data.data,function(res, i){
-                        console.log(res);
                         var A = '<div><h1>'+res.id+' </h1> <h1> '+res.first_name+' </h1> <h2> '+res.email+' </h2> <img src="'+res.avatar+'" > </div>';
                         $(".for-data").append(A);
                     });
@@ -61,6 +59,7 @@ $("document").ready(function(){
         pageLength: length,
         lengthMenu: [ [2, 5, 7, 10, 20], [2, 5, 7, 10, 20] ],
         order: [],
+        searching: true,
         dom: 'lrtip',
         ajax : function (dataToSend, callback, settings) {
             var api = this.api();
@@ -70,7 +69,6 @@ $("document").ready(function(){
             var link = 'https://reqres.in/api/users?page='+page+'&per_page='+per_page;
             $.get(link, function(data){
                 console.log(data);
-                console.log("get dan qaytgani");
                 var A={
                     recordsTotal: data.total,
                     recordsFiltered: data.total,
@@ -78,15 +76,25 @@ $("document").ready(function(){
                 }
                         callback(A);
             });
-
-
         },
         columns:[
-            {data: 'id'},
+            {
+                data: 'avatar',
+                render: function (data, type, row, meta) {
+                    return '<img src='+data+' />';
+                }, className:'text-center'
+            },
             {data: 'email'},
             {data: 'first_name'},
             {data: 'last_name'},
-            {data: 'avatar'}
+            {data: 'id',}
+
+        ],
+        columnDefs: [
+            {
+                targets: -1,
+                className: 'dt-body-center'
+            }
         ]
     });
 })
